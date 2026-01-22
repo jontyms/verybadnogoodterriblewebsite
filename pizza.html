@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tables and Forms</title>
+  </head>
+  <body>
+    <h1>Pizza Order Form</h1>
+
+    <form action="#" method="post">
+      <fieldset>
+        <legend>Customer Information</legend>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+        <br /><br />
+
+        <label for="phone">Phone:</label>
+        <input
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+          id="phone"
+          name="phone"
+          required
+        />
+        <br /><br />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+        <br /><br />
+      </fieldset>
+
+      <fieldset>
+        <legend>Pizza Details</legend>
+
+        <label for="size">Pizza Size:</label>
+        <select id="size" name="size" required>
+          <option value="">Select Size</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
+          <option value="xlarge">XLarge</option>
+        </select>
+        <br /><br />
+
+        <label for="sauce">Sauce Type:</label>
+        <select id="sauce" name="sauce" required>
+          <option value="">Select Sauce</option>
+          <option value="marinara">Marinara</option>
+          <option value="bbq">BBQ</option>
+          <option value="white">White Sauce</option>
+          <option value="pesto">Pesto</option>
+        </select>
+        <br /><br />
+
+        <fieldset>
+          <legend>Toppings (Check all that apply)</legend>
+
+          <input
+            type="checkbox"
+            id="pepperoni"
+            name="toppings"
+            value="pepperoni"
+          />
+          <label for="pepperoni">Pepperoni</label>
+          <br />
+
+          <input
+            type="checkbox"
+            id="mushrooms"
+            name="toppings"
+            value="mushrooms"
+          />
+          <label for="mushrooms">Mushrooms</label>
+          <br />
+
+          <input type="checkbox" id="sausage" name="toppings" value="sausage" />
+          <label for="sausage">Italian Sausage</label>
+          <br />
+
+          <input type="checkbox" id="peppers" name="toppings" value="peppers" />
+          <label for="peppers">Bell Peppers</label>
+          <br />
+
+          <input type="checkbox" id="onions" name="toppings" value="onions" />
+          <label for="onions">Red Onions</label>
+          <br />
+
+          <input type="checkbox" id="olives" name="toppings" value="olives" />
+          <label for="olives">Black Olives</label>
+          <br />
+
+          <input type="checkbox" id="cheese" name="toppings" value="cheese" />
+          <label for="cheese">Extra Cheese</label>
+          <br />
+        </fieldset>
+      </fieldset>
+
+      <br />
+      <button type="submit">Place Order</button>
+    </form>
+
+    <hr />
+
+    <h2>Favorite Video Games</h2>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Game Title</th>
+          <th>Genre</th>
+          <th>Platform</th>
+          <th colspan="2">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>The Legend of Zelda: Breath of the Wild</td>
+          <td>Action/Adventure</td>
+          <td>Nintendo Switch</td>
+          <td>10</td>
+          <td>Excellent</td>
+        </tr>
+        <tr>
+          <td>Cyberpunk 2077</td>
+          <td rowspan="2">RPG</td>
+          <td>PC</td>
+          <td>8</td>
+          <td>Good</td>
+        </tr>
+        <tr>
+          <td>The Witcher 3</td>
+          <td>PC/Console</td>
+          <td>9</td>
+          <td>Amazing</td>
+        </tr>
+        <tr>
+          <td>Super Mario Odyssey</td>
+          <td>Platformer</td>
+          <td>Nintendo Switch</td>
+          <td colspan="2">Must Play!</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
