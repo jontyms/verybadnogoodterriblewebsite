@@ -1,0 +1,50 @@
+#paragraph2 {
+	background: white;
+	padding: 2rem;
+	line-height: 2;
+	width: 70%;
+	border: 5px solid green;
+}
+
+h1 {
+	text-align: center;
+	font-size: xxx-large;
+	font-family: sans-serif;
+}
+
+h2 {
+	font-size: xx-large;
+	font-family: sans-serif;
+}
+
+.blue {
+	background-color: darkblue;
+	color: white;
+	padding: 1.4rem;
+}
+
+li {
+	list-style-type: decimal-leading-zero;
+}
+
+section a {
+	color: maroon;
+}
+
+body {
+	background: lightblue;
+}
+
+table {
+	background-color: white;
+	border-collapse: collapse;
+}
+
+td {
+	padding: 1rem;
+	border: 2px solid black;
+}
+th {
+	background-color: gray;
+	border: 2px solid black;
+}
