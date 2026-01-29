@@ -1,9 +1,10 @@
 #paragraph2 {
 	background: white;
-	padding: 2rem;
+	padding: 1.4rem 4rem 1.4rem;
 	line-height: 2;
 	width: 70%;
 	border: 5px solid green;
+	margin: 2rem;
 }
 
 h1 {
