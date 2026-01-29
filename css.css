@@ -1,0 +1,37 @@
+#jumpMenu {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	align-content: center;
+	justify-content: space-evenly;
+	background-color: goldenrod;
+	position: fixed;
+	text-align: center;
+	vertical-align: middle;
+	left: 0px;
+	height: 100%;
+	bottom: 0;
+	width: 20%;
+	font-size: 3vh;
+}
+
+main {
+	margin-left: 20%;
+}
+
+footer {
+	background-color: black;
+	color: white;
+	font-size: xxx-large;
+	text-align: center;
+	padding: 2em;
+}
+
+header p {
+	text-align: center;
+	text-emphasis: bold;
+	font-family: sans-serif;
+	font-size: xx-large;
+	padding: 1.4em;
+	background-color: red;
+}
