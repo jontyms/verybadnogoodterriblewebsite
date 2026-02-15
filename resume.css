@@ -1,0 +1,932 @@
+/*
+ * Resume Stylesheet - Inspired by jontyms.com
+ * Responsive CSS for Mobile (412px) and Desktop (1920px)
+ */
+
+/* CSS Variables - Color Palette */
+:root {
+	--palette-purple: oklch(0.3196 0.167653 303.1991);
+	--palette-pink: oklch(0.4717 0.1953 352.26);
+	--palette-mint: oklch(0.493 0.100981 167.0434);
+	--palette-blue: oklch(0.4506 0.1452 254.37);
+	--palette-red: oklch(0.4513 0.1852 29.23);
+
+	--maincolor: var(--palette-purple);
+	--hovercolor: var(--palette-blue);
+	--shadow-color: oklch(0 0 0);
+	--border-color: oklch(0 0 0);
+	--background-color: oklch(0.9306 0.026 92.4);
+	--shadow-z1: 4px 4px var(--shadow-color);
+	--shadow-z2: 8px 8px var(--shadow-color);
+	--title-bg: oklch(0.493 0.100981 167.0434);
+	--bordercl: var(--palette-mint);
+	--text-1: oklch(0 0 0);
+	--text-2: oklch(0.4202 0 0);
+	--callout-bg: var(--palette-blue);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--dark-grey: oklch(0.6201 0 0);
+		--maincolor: var(--palette-blue);
+		--hovercolor: var(--dark-grey);
+		--shadow-color: oklch(0.3715 0 0);
+		--border-color: var(--dark-grey);
+		--background-color: oklch(0.1 0 0);
+		--title-bg: var(--dark-grey);
+		--bordercl: var(--dark-grey);
+		--text-1: oklch(0.9 0 0);
+		--text-2: oklch(0.7 0 0);
+		--callout-bg: oklch(0.25 0.05 254.37);
+	}
+}
+
+/* Base Styles */
+* {
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+::selection {
+	background: var(--maincolor);
+	color: #fff;
+}
+
+html {
+	color: var(--text-1);
+	font-family: "Roboto Mono", "Courier New", monospace;
+	font-size: 15px;
+	line-height: 1.6em;
+}
+
+body {
+	display: block;
+	margin: 0;
+	padding: 8px;
+	background-color: var(--background-color);
+}
+
+/* Content Container */
+.resume-container {
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 8px;
+	display: flex;
+	flex-direction: column;
+}
+
+.resume-main {
+	margin-bottom: 4em;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 800px;
+	padding: 0 1ch;
+	word-wrap: break-word;
+	order: 1;
+}
+
+.content {
+	margin-bottom: 4em;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 800px;
+	padding: 0 1ch;
+	word-wrap: break-word;
+}
+
+/* TOC comes after main content on mobile for resume */
+.resume-container .toc {
+	order: 2;
+	margin: 0 auto;
+	max-width: 800px;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Roboto Mono", "Courier New", monospace;
+	margin-top: 1.5em;
+	margin-bottom: 0.5em;
+}
+
+p {
+	font-family: "Atkinson Hyperlegible", "Helvetica Neue", Arial, sans-serif;
+	line-height: 1.5;
+	margin: 0.75em 0;
+}
+
+/* Heading Styles with # prefix */
+h1 {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 0.5ch;
+	padding: 10px;
+	box-shadow: var(--shadow-z1);
+	background: var(--title-bg);
+	color: var(--background-color);
+	font-size: 28px;
+	margin-top: 0;
+}
+
+h1::before {
+	content: "#";
+	color: var(--maincolor);
+}
+
+h2 {
+	padding: 5px 10px;
+	border: 2px solid var(--border-color);
+	box-shadow: var(--shadow-z1);
+	font-size: 22px;
+}
+
+h2::before {
+	color: var(--maincolor);
+	content: "## ";
+}
+
+h3 {
+	font-size: 18px;
+}
+
+h3::before {
+	color: var(--maincolor);
+	content: "### ";
+}
+
+h4::before {
+	color: var(--maincolor);
+	content: "#### ";
+}
+
+/* Links */
+a {
+	border-bottom: 3px solid var(--maincolor);
+	color: inherit;
+	text-decoration: none;
+	transition:
+		background-color 0.2s ease,
+		color 0.2s ease;
+}
+
+a:hover {
+	background-color: var(--hovercolor);
+	color: #fff;
+}
+
+/* Header Navigation */
+header {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	line-height: 2.5em;
+	align-items: center;
+	padding: 15px 0;
+	margin-bottom: 1em;
+}
+
+header .main {
+	font-size: 1.5rem;
+	display: flex;
+	align-items: center;
+}
+
+header nav {
+	display: flex;
+	gap: 1em;
+}
+
+header nav a {
+	padding: 0.25em 0.5em;
+}
+
+/* Resume Header */
+.resume-header {
+	display: block;
+	text-align: center;
+	padding: 20px 0;
+	border-bottom: 3px solid var(--bordercl);
+	margin-bottom: 2em;
+}
+
+.resume-header h1 {
+	display: block;
+	text-align: center;
+	background: none;
+	box-shadow: none;
+	color: var(--text-1);
+	padding: 0;
+	margin-bottom: 0.25em;
+}
+
+.resume-header h1::before {
+	content: none;
+}
+
+.tagline {
+	font-size: 1.1rem;
+	color: var(--text-2);
+	margin: 0.5em 0;
+}
+
+/* Contact Info */
+.contact-info {
+	font-style: normal;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1em;
+	margin-top: 1em;
+}
+
+.contact-info a {
+	font-size: 0.9rem;
+}
+
+/* Resume Sections */
+.resume-section {
+	margin: 2em 0;
+	padding: 1em;
+	border: 3px var(--border-color) solid;
+	box-shadow: var(--shadow-z2);
+}
+
+.resume-section h2 {
+	margin-top: 0;
+}
+
+.section-content {
+	padding: 0.5em 0;
+}
+
+/* Entry Items (Education, Experience, Projects) */
+.entry {
+	margin-bottom: 1.5em;
+	padding-bottom: 1.5em;
+	border-bottom: 1px dashed var(--bordercl);
+}
+
+.entry:last-child {
+	border-bottom: none;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.entry h3 {
+	margin-top: 0;
+	margin-bottom: 0.25em;
+}
+
+.organization {
+	font-weight: bold;
+	color: var(--text-2);
+	margin: 0.25em 0;
+}
+
+time {
+	color: var(--text-2);
+	font-size: 0.9em;
+	display: block;
+	margin: 0.25em 0;
+}
+
+.detail {
+	margin: 0.25em 0;
+}
+
+.note {
+	font-style: italic;
+	color: var(--text-2);
+	font-size: 0.9em;
+	margin: 0.5em 0;
+	padding-left: 1em;
+	border-left: 3px solid var(--bordercl);
+}
+
+.tech-stack {
+	color: var(--maincolor);
+	font-weight: bold;
+	margin: 0.25em 0;
+}
+
+.meta-info {
+	color: var(--text-2);
+	font-size: 0.9em;
+	margin: 0.25em 0;
+}
+
+.meta-info time {
+	display: inline;
+	margin-left: 0.5em;
+}
+
+/* Lists */
+ul {
+	list-style: disc;
+	padding-left: 1.5em;
+	margin: 0.75em 0;
+}
+
+ul li {
+	margin: 0.5em 0;
+	line-height: 1.5;
+}
+
+/* Skills Definition List */
+.skills-list {
+	margin: 0;
+}
+
+.skills-list dt {
+	font-weight: bold;
+	color: var(--maincolor);
+	margin-top: 1em;
+}
+
+.skills-list dt:first-child {
+	margin-top: 0;
+}
+
+.skills-list dd {
+	margin-left: 0;
+	padding-left: 1em;
+	border-left: 3px solid var(--bordercl);
+	margin-bottom: 0.5em;
+}
+
+/* Glossary */
+.glossary dt {
+	font-weight: bold;
+	margin-top: 1em;
+}
+
+.glossary dd {
+	margin-left: 0;
+	padding-left: 1em;
+	border-left: 3px solid var(--bordercl);
+	color: var(--text-2);
+}
+
+/* Article Styles */
+article {
+	padding: 1em 0;
+}
+
+article .meta {
+	color: var(--text-2);
+	margin-bottom: 2em;
+}
+
+.page-title {
+	margin-bottom: 0.5em;
+}
+
+/* Callout/Aside Box */
+.callout {
+	background-color: var(--callout-bg);
+	color: #fff;
+	padding: 1em;
+	margin: 1.5em 0;
+	border-radius: 0;
+	box-shadow: var(--shadow-z1);
+}
+
+.callout a {
+	border-bottom: 3px solid #fff;
+	color: #fff;
+}
+
+.callout a:hover {
+	background-color: #fff;
+	color: var(--callout-bg);
+}
+
+/* Table of Contents */
+.toc {
+	background-color: var(--background-color);
+	border: 2px solid var(--border-color);
+	box-shadow: var(--shadow-z1);
+	padding: 1em;
+	margin: 1.5em 0;
+}
+
+.toc h2 {
+	margin-top: 0;
+	font-size: 18px;
+}
+
+.toc ul {
+	list-style: none;
+	padding-left: 0;
+	margin: 0.5em 0;
+}
+
+.toc li {
+	margin: 0.5em 0;
+}
+
+.toc a {
+	border-bottom: 2px solid var(--maincolor);
+	font-size: 0.9em;
+	display: block;
+	padding: 0.25em 0;
+}
+
+/* Images and Figures */
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+figure {
+	box-sizing: border-box;
+	display: block;
+	margin: 1.5em 0;
+	max-width: 100%;
+}
+
+figure img {
+	box-shadow: var(--shadow-z1);
+	display: block;
+	max-width: 100%;
+}
+
+figure a {
+	border-bottom: unset;
+}
+
+figure a:hover {
+	background-color: unset;
+}
+
+figcaption {
+	font-size: 0.9em;
+	color: var(--text-2);
+	margin-top: 0.5em;
+}
+
+figcaption::before {
+	content: "↳ ";
+}
+
+/* Server Type Sections (Minecraft page) */
+.server-type {
+	margin: 1.5em 0;
+	padding: 1em;
+	border: 2px solid var(--border-color);
+	box-shadow: var(--shadow-z1);
+}
+
+.server-type h2 {
+	margin-top: 0;
+	border: none;
+	box-shadow: none;
+	padding: 0;
+}
+
+/* Blockquote */
+blockquote {
+	border-left: 3px solid var(--bordercl);
+	color: var(--text-2);
+	margin: 1em 0;
+	padding-left: 1em;
+}
+
+/* Horizontal Rule */
+hr {
+	border: 0;
+	border-top: 3px dotted var(--bordercl);
+	margin: 2em 0;
+}
+
+/* Footer */
+footer {
+	border-top: 3px solid var(--maincolor);
+	padding: 1rem 0;
+	margin-top: 2rem;
+	text-align: center;
+}
+
+.footer-info {
+	color: var(--text-2);
+	font-size: 0.9em;
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN - MOBILE FIRST APPROACH
+   ===================================================== */
+
+/* Mobile Layout (default - up to 412px and small screens) */
+@media screen and (max-width: 600px) {
+	html {
+		font-size: 14px;
+	}
+
+	.resume-container {
+		padding: 4px;
+		flex-direction: column;
+	}
+
+	.resume-main {
+		padding: 0 0.5ch;
+		order: 1;
+		max-width: 100%;
+	}
+
+	.content {
+		padding: 0 0.5ch;
+	}
+
+	.resume-container .toc {
+		order: 2;
+		max-width: 100%;
+		margin: 1em auto;
+	}
+
+	/* Stack header elements vertically on mobile */
+	header {
+		flex-direction: column;
+		text-align: center;
+		gap: 0.5em;
+	}
+
+	header .main {
+		font-size: 1.25rem;
+	}
+
+	header nav {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	/* Resume header adjustments */
+	.resume-header {
+		padding: 15px 0;
+	}
+
+	.resume-header h1 {
+		font-size: 1.75rem;
+	}
+
+	.tagline {
+		font-size: 1rem;
+	}
+
+	/* Contact info stacks vertically */
+	.contact-info {
+		flex-direction: column;
+		gap: 0.5em;
+	}
+
+	.contact-info a {
+		display: block;
+	}
+
+	/* Reduce section padding on mobile */
+	.resume-section {
+		padding: 0.75em;
+		margin: 1.5em 0;
+		box-shadow: var(--shadow-z1);
+	}
+
+	/* Smaller headings on mobile */
+	h1 {
+		font-size: 22px;
+		padding: 8px;
+	}
+
+	h2 {
+		font-size: 18px;
+		padding: 4px 8px;
+	}
+
+	h3 {
+		font-size: 16px;
+	}
+
+	/* Tighter spacing on mobile */
+	.entry {
+		margin-bottom: 1em;
+		padding-bottom: 1em;
+	}
+
+	/* Skills list adjustments */
+	.skills-list dd {
+		padding-left: 0.75em;
+	}
+
+	/* TOC inline for mobile */
+	.toc {
+		padding: 0.75em;
+		margin: 1em 0;
+		position: static;
+		width: auto;
+	}
+
+	.toc h2 {
+		font-size: 16px;
+	}
+
+	.toc a {
+		font-size: 0.85em;
+	}
+
+	/* Figure adjustments */
+	figure {
+		margin: 1em 0;
+	}
+
+	/* Server type sections */
+	.server-type {
+		padding: 0.75em;
+		margin: 1em 0;
+	}
+
+	/* Reduce list padding */
+	ul {
+		padding-left: 1.25em;
+	}
+}
+
+/* Tablet Layout (601px - 1024px) */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+	.content {
+		max-width: 700px;
+	}
+
+	.resume-header h1 {
+		font-size: 2rem;
+	}
+
+	/* Two-column contact info on tablet */
+	.contact-info {
+		justify-content: center;
+	}
+}
+
+/* Desktop Layout (1025px and up - optimized for 1920px) */
+@media screen and (min-width: 1025px) {
+	html {
+		font-size: 16px;
+	}
+
+	/* Only apply grid layout to resume pages with .resume-main */
+	.resume-container:has(.resume-main) {
+		display: grid;
+		grid-template-columns: 1fr 250px;
+		gap: 2em;
+		max-width: 1400px;
+		padding: 8px 2em;
+		margin: 0 auto;
+	}
+
+	/* Blog posts keep single column layout */
+	.resume-container:has(.content) {
+		display: block;
+		max-width: 1400px;
+		padding: 8px 2em;
+		margin: 0 auto;
+	}
+
+	.resume-main {
+		grid-column: 1;
+		max-width: none;
+		padding: 0;
+	}
+
+	/* Keep content normal for blog posts */
+	.content {
+		max-width: 900px;
+		padding: 0 2ch;
+	}
+
+	/* TOC as sticky sidebar on desktop for resume page only */
+	.resume-container:has(.resume-main) .toc {
+		grid-column: 2;
+		grid-row: 1;
+		position: sticky;
+		top: 20px;
+		align-self: start;
+		max-height: calc(100vh - 40px);
+		overflow-y: auto;
+		margin: 0;
+		padding: 1.25em;
+	}
+
+	/* TOC inline for blog posts */
+	.resume-container:has(.content) .toc {
+		position: static;
+		margin: 1.5em 0;
+		padding: 1em;
+	}
+
+	.toc h2 {
+		font-size: 20px;
+		margin-bottom: 1em;
+	}
+
+	.toc li {
+		margin: 0.75em 0;
+	}
+
+	.toc a {
+		font-size: 0.95em;
+	}
+
+	/* Larger header on desktop */
+	header {
+		padding: 20px 0;
+	}
+
+	header .main {
+		font-size: 1.75rem;
+	}
+
+	/* Resume header with more breathing room */
+	.resume-header {
+		padding: 30px 0;
+		margin-bottom: 2.5em;
+	}
+
+	.resume-header h1 {
+		font-size: 2.5rem;
+	}
+
+	.tagline {
+		font-size: 1.2rem;
+	}
+
+	/* Spacious contact info */
+	.contact-info {
+		gap: 2em;
+		margin-top: 1.5em;
+	}
+
+	.contact-info a {
+		font-size: 1rem;
+	}
+
+	/* Larger section styling */
+	.resume-section {
+		padding: 1.5em;
+		margin: 2.5em 0;
+	}
+
+	/* Larger headings on desktop */
+	h1 {
+		font-size: 32px;
+		padding: 12px;
+	}
+
+	h2 {
+		font-size: 24px;
+		padding: 8px 12px;
+	}
+
+	h3 {
+		font-size: 20px;
+	}
+
+	/* More spacing for entries */
+	.entry {
+		margin-bottom: 2em;
+		padding-bottom: 2em;
+	}
+
+	/* Skills list with more padding */
+	.skills-list dd {
+		padding-left: 1.5em;
+	}
+
+	/* Figure with padding on desktop */
+	figure {
+		padding: 0 40px;
+		margin: 2em 0;
+	}
+
+	/* Server type sections */
+	.server-type {
+		padding: 1.5em;
+		margin: 2em 0;
+	}
+
+	/* Footer */
+	footer {
+		margin-top: 3rem;
+		padding: 1.5rem 0;
+	}
+}
+
+/* Large Desktop (1440px and up) */
+@media screen and (min-width: 1440px) {
+	html {
+		font-size: 17px;
+	}
+
+	.resume-container:has(.resume-main) {
+		grid-template-columns: 1fr 280px;
+		gap: 2.5em;
+		max-width: 1500px;
+		margin: 0 auto;
+	}
+
+	.content {
+		max-width: 1000px;
+	}
+
+	.resume-container:has(.resume-main) .toc {
+		padding: 1.5em;
+	}
+}
+
+/* Extra Large Desktop (1920px and up) */
+@media screen and (min-width: 1920px) {
+	html {
+		font-size: 18px;
+	}
+
+	.resume-container:has(.resume-main) {
+		grid-template-columns: 1fr 320px;
+		gap: 3em;
+		max-width: 1600px;
+		padding: 8px 4em;
+		margin: 0 auto;
+	}
+
+	.resume-header h1 {
+		font-size: 3rem;
+	}
+
+	h1 {
+		font-size: 36px;
+	}
+
+	h2 {
+		font-size: 28px;
+	}
+
+	h3 {
+		font-size: 22px;
+	}
+
+	.content {
+		max-width: 1100px;
+	}
+
+	.resume-container:has(.resume-main) .toc {
+		padding: 1.75em;
+	}
+
+	.resume-container:has(.resume-main) .toc h2 {
+		font-size: 22px;
+	}
+
+	.resume-container:has(.resume-main) .toc a {
+		font-size: 1em;
+	}
+}
+
+/* Print Styles */
+@media print {
+	body {
+		background-color: #fff;
+	}
+
+	.content {
+		max-width: 100%;
+	}
+
+	a {
+		border-bottom: none;
+		color: var(--text-1);
+	}
+
+	a::after {
+		content: " (" attr(href) ")";
+		font-size: 0.8em;
+		color: var(--text-2);
+	}
+
+	.resume-section,
+	.server-type {
+		box-shadow: none;
+		border: 1px solid #ccc;
+		page-break-inside: avoid;
+	}
+
+	h1,
+	h2,
+	h3 {
+		box-shadow: none;
+	}
+
+	header nav,
+	footer {
+		display: none;
+	}
+}

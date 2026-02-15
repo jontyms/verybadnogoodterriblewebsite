@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="canonical" href="https://jontyms.com/posts/private-cloud/">
+		<meta name="author" content="Jonathan Styles">
+		<meta
+			name="description"
+			content="Discover how Hack@UCF's private cloud empowers students with hands-on experience in cybersecurity and cloud computing. Learn about the hardware, networking, and software that drive our private cloud, and explore upcoming projects aimed at enhancing our infrastructure. Join us on this journey to build a resilient, innovative private cloud using a DevOps approach."
+		>
+		<title>Building a Private Cloud: A DevOps Approach</title>
+		<link rel="stylesheet" href="resume.css">
+	</head>
+	<body>
+		<div class="resume-container">
+			<div class="content">
+				<header>
+				<div class="main">
+					<a href="styled-resume.html">Jonathan Styles</a>
+				</div>
+				<nav>
+					<a href="styled-resume.html">Resume</a>
+				</nav>
+			</header>
+			<article>
+				<h1 class="page-title">Building a Private Cloud: A DevOps Approach</h1>
+				<p class="meta">
+					<span class="author">Jonathan Styles</span> |
+					<time datetime="2024-06-11">June 11, 2024</time>
+				</p>
+				<nav id="TOC" role="doc-toc" class="toc">
+					<strong>Table of Contents</strong>
+					<ul>
+						<li>
+							<a href="#the-hardware">The Hardware</a>
+							<ul>
+								<li><a href="#networking">Networking</a></li>
+								<li>
+									<a href="#servers">Servers</a>
+									<ul>
+										<li><a href="#manager-nodes">Manager Nodes</a></li>
+										<li><a href="#compute-nodes">Compute Nodes</a></li>
+										<li><a href="#storage-nodes">Storage Nodes</a></li>
+										<li><a href="#deployment-node">Deployment Node</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li><a href="#initial-setup">Initial Setup</a></li>
+						<li>
+							<a href="#the-other-stuff">The Other Stuff</a>
+							<ul>
+								<li><a href="#assorted-vms">Assorted VMs</a></li>
+								<li><a href="#okd">OKD</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="#upcoming-projects">Upcoming Projects</a>
+							<ul>
+								<li><a href="#horse-plinko">1. Horse Plinko</a></li>
+								<li><a href="#auth-2.0">2. Auth 2.0</a></li>
+								<li><a href="#awx">3. AWX</a></li>
+							</ul>
+						</li>
+						<li><a href="#glossary-of-terms">Glossary of Terms</a></li>
+					</ul>
+				</nav>
+				<p>
+					For the past year I have been involved in running a private cloud for
+					<a href="https://hackucf.org">Hack@UCF</a> a student-run cybersecurity
+					club at <a href="https://ucf.com">The University of Central Florida</a>.
+					All members are given access to this cloud as a place to experiment and
+					learn without the fear of massive cloud bills. We also use the cloud to
+					host our very own defensive cybersecurity competition
+					<a href="https://plinko.horse">Horse Plinko</a>.
+				</p>
+				<p>
+					This began is spring 2019 when the
+					<a
+						href="https://www.ucf.edu/pegasus/ucf-opens-lockheed-martin-cyber-innovation-lab/"
+						>Lockheed Martin Cyber Innovation Lab</a
+					>
+					was opened. Along with this Hack@UCF also gained access to a fund for
+					equipping and upkeep of the lab. The decision was made to invest in
+					server hardware in order to provide the club with a private cloud
+					platform. I have been involved since September 2023, and I am now in
+					charge of the project.
+				</p>
+				<aside class="callout">
+					At Hack@UCF, we are dedicated to fostering a dynamic learning
+					environment where students can explore and excel in the field of
+					cybersecurity. By sponsoring Hack@UCF, you become a vital part of our
+					mission to develop skilled cybersecurity professionals. Together, we can
+					create opportunities for learning, growth, and innovation. For more
+					information on sponsorship opportunities, please contact us
+					<a href="https://www.hackucf.org/sponsorship">here</a>
+				</aside>
+				<h2 id="the-hardware">The Hardware</h2>
+				<figure>
+					<img src="Cluster.png" alt="A picture of a UCF datacenter">
+					<figcaption>
+						<a href="https://arcc.ist.ucf.edu/">Image Source</a>.
+					</figcaption>
+				</figure>
+				<p>
+					The hardware is a bit of a mess with four generations of people making
+					purchasing decision each with their own vision of what the cloud should
+					be.
+				</p>
+				<h3 id="networking">Networking</h3>
+				<p>
+					Our network infrastructure features 10 Gigabit Ethernet (GbE) backbone,
+					with all servers connected via a bonded 2x10 GbE link for maximum uptime
+					and redundancy. Our main router and firewall is a EdgeRouter Infinity,
+					which not only provides routing capabilities but also hosts a WireGuard
+					server for secure admin access. For switching needs, we rely on a
+					combination of Edgeswitch and Mikrotik switches.
+				</p>
+				<figure>
+					<img src="Infra-Network-Diagram.svg" alt="Network Diagram">
+					<figcaption>A Network Diagram</figcaption>
+				</figure>
+				<h3 id="servers">Servers</h3>
+				<h4 id="manager-nodes">Manager Nodes</h4>
+				<p>
+					All these servers are fairly new (purchased within the last year). Our
+					manager nodes run RabbitMQ, a MariaDB cluster, HAProxy, and Horizon web
+					UI, as well as other management daemons for various OpenStack services.
+					These servers have a single SSD drive and AMD EPYC 7313P 16 Core, and
+					64GB of RAM.
+				</p>
+				<h4 id="compute-nodes">Compute Nodes</h4>
+				<p>
+					These nodes run the Nova compute service; all virtual machines run on
+					these hosts. A few of these hosts also house some of the cluster's NVMe
+					storage.
+				</p>
+				<p>
+					Compute 1a-1d are all in a single 2U Supermicro chassis. They have an
+					AMD EPYC 7702P 64-Core processor, 512GB of memory, a SATA boot drive,
+					and one NVMe storage drive.
+				</p>
+				<p>
+					Compute 2 is a relic from when the private cloud only had one server. It
+					has two AMD EPYC 7451 24-Core processors with 256GB of memory.
+				</p>
+				<h4 id="storage-nodes">Storage Nodes</h4>
+				<p>
+					These nodes house most of our Ceph OSDs. Storage 1 is a 2U server with
+					all the rust drives in our cluster - 12 drives with a combined capacity of
+					134.1 TiB. Storage 2-4 are our NVMe storage servers, each with 12
+					drives.
+				</p>
+				<h4 id="deployment-node">Deployment Node</h4>
+				<p>
+					This is a old Dell PowerEdge from UCF's surplus. This node runs the
+					software used to deploy the rest of the nodes.
+				</p>
+				<h2 id="initial-setup">Initial Setup</h2>
+				<p>
+					Once a server is in the rack, it is PXE booted from
+					<a href="https://maas.io/">MAAS</a>. MAAS (metal-as-a-service) is a
+					product from Canonical. We use it to quickly install operating systems
+					and do a small amount of configuration with cloud-init. Once we install
+					the operating system (always the most recent LTS Ubuntu) we run our
+					baseline ansible playbook. The baseline script creates users, installs
+					necessary packages, and sets up the firewall.
+				</p>
+				<p>
+					Once all the servers are provisioned we run Kolla Ansible. Kolla Ansible
+					is a Openstack project that deploys openstack fully containerized using
+					ansible. Much better details of how to use Kolla Ansible is found in
+					their documentation and is this
+					<a
+						href="https://blog.gr4ytech.net/posts/Automating-Openstack-Deployment/"
+						>blog post</a
+					>
+					by another one of the sysadmins on the project.
+				</p>
+				<p>
+					After Kolla has finished running we deploy Ceph using a playbook built
+					on
+					<a href="https://github.com/ceph/cephadm-ansible">cephadm-ansible</a>.
+				</p>
+				<h2 id="the-other-stuff">The Other Stuff</h2>
+				<figure>
+					<img src="Dependency-graph.svg" alt="Dependency Graph">
+					<figcaption>
+						A dependency graph showing most services running on our cloud
+					</figcaption>
+				</figure>
+				<h3 id="assorted-vms">Assorted VMs</h3>
+				<p>
+					The virtual machines in our admin tenant are deployed using
+					<a href="https://www.terraform.io/">Terraform</a> from our self hosted
+					github runner. These vms include a
+					<a href="https://www.portainer.io">Portainer</a> host, a
+					<a href="https://www.zabbix.com">Zabbix</a> server, a
+					<a href="https://wazuh.com">Wazuh</a> cluster, Windows Active Directory
+					servers, and a OpenVPN server. These vms are configured using a mix of
+					manual steps and ansible playbooks.
+				</p>
+				<h3 id="okd">OKD</h3>
+				<p>
+					<a href="https://www.okd.io/">OKD</a> describes itself as "The Community
+					Distribution of Kubernetes that powers Red Hat OpenShift." We use OKD to
+					run <a href="https://github.com/plankanban/planka">Planka</a> our trello
+					replacement, <a href="https://www.keycloak.org/">Keycloak</a> for our
+					Auth 2.0 project and AWX for upcoming projects. OKD is deployed using
+					their official ansible install scripts.
+				</p>
+				<h2 id="upcoming-projects">Upcoming Projects</h2>
+				<h3 id="horse-plinko">1. Horse Plinko</h3>
+				<p>
+					Horse Plinko will use our new AWX install in order to deploy competitor
+					machines and supporting infrastructure. Horse Plinko will also use Auth
+					2.0 in order to provided themed single sign on for the competition.
+				</p>
+				<h3 id="auth-2.0">2. Auth 2.0</h3>
+				<p>
+					Currently, different services we use all have different logins. In order
+					to increase usability, we are going to move to SSO wherever we can. This
+					will involve integrating into OnboardLite, OpenStack, OpenVPN, and
+					RADIUS auth for the Wi-Fi.
+					<a href="https://blog.gr4ytech.net/posts/Using-Keycloak-With-Openstack/"
+						>blog post</a
+					>
+				</p>
+				<h3 id="awx">3. AWX</h3>
+				<p>
+					Ansible playbook are currently run from developer laptops or the
+					deployment node. We plan to move to deploying everything from AWX, to
+					provide full CI/CD and configuration drift prevention.
+				</p>
+
+				<h2 id="glossary-of-terms">Glossary of Terms</h2>
+				<dl class="glossary">
+					<dt>Admin Tenant</dt>
+					<dd>
+						A virtualized administrative space where IT management tasks are
+						performed.
+					</dd>
+
+					<dt>Ansible</dt>
+					<dd>
+						An open-source automation tool used for IT tasks such as configuration
+						management, application deployment, and provisioning.
+					</dd>
+
+					<dt>AWX</dt>
+					<dd>
+						An open-source web application that provides a user interface, REST
+						API, and task engine for Ansible.
+					</dd>
+
+					<dt>Ceph</dt>
+					<dd>
+						A distributed storage system that provides object, block, and file
+						storage in a unified system.
+					</dd>
+
+					<dt>Ceph OSD (Object Storage Daemon)</dt>
+					<dd>
+						A service that stores data and handles data replication, recovery,
+						rebalancing, and provides some monitoring information to Ceph
+						Monitors.
+					</dd>
+
+					<dt>CI/CD (Continuous Integration/Continuous Deployment)</dt>
+					<dd>
+						A method to frequently deliver apps to customers by introducing
+						automation into the stages of app development.
+					</dd>
+
+					<dt>Cloud-init</dt>
+					<dd>
+						A package that handles early initialization of a cloud instance.
+					</dd>
+
+					<dt>Compute Node</dt>
+					<dd>A server that runs the virtual machines in a cloud environment.</dd>
+
+					<dt>EdgeRouter Infinity</dt>
+					<dd>
+						A high-performance router designed for large-scale network
+						applications.
+					</dd>
+
+					<dt>EdgeSwitch</dt>
+					<dd>
+						A series of managed network switches designed by Ubiquiti Networks.
+					</dd>
+
+					<dt>GitHub Runner</dt>
+					<dd>
+						A virtual machine that runs workflows defined in a repository on
+						GitHub.
+					</dd>
+
+					<dt>HAProxy</dt>
+					<dd>
+						A free, open-source software that provides a high availability load
+						balancer and proxy server for TCP and HTTP-based applications.
+					</dd>
+
+					<dt>Kolla Ansible</dt>
+					<dd>
+						An OpenStack project that provides production-ready containers and
+						deployment tools for operating OpenStack clouds.
+					</dd>
+
+					<dt>MAAS (Metal-as-a-Service)</dt>
+					<dd>
+						A service from Canonical that enables quick installation and
+						configuration of physical servers.
+					</dd>
+
+					<dt>NVMe (Non-Volatile Memory Express)</dt>
+					<dd>
+						A storage interface designed to allow modern SSDs to operate at high
+						speeds.
+					</dd>
+
+					<dt>OpenStack</dt>
+					<dd>
+						An open-source software platform for cloud computing, typically
+						deployed as infrastructure-as-a-service (IaaS).
+					</dd>
+
+					<dt>OpenVPN</dt>
+					<dd>
+						An open-source VPN protocol that provides secure point-to-point or
+						site-to-site connections.
+					</dd>
+
+					<dt>PXE (Preboot Execution Environment)</dt>
+					<dd>
+						A standard that describes a way to boot computers using a network
+						interface independently of available data storage devices or installed
+						operating systems.
+					</dd>
+
+					<dt>RabbitMQ</dt>
+					<dd>
+						An open-source message broker software that implements the Advanced
+						Message Queuing Protocol (AMQP).
+					</dd>
+
+					<dt>RADIUS (Remote Authentication Dial-In User Service)</dt>
+					<dd>
+						A networking protocol that provides centralized Authentication,
+						Authorization, and Accounting (AAA) management for users who connect
+						and use a network service.
+					</dd>
+
+					<dt>SATA (Serial ATA)</dt>
+					<dd>
+						An interface used to connect ATA hard drives to a computer's
+						motherboard.
+					</dd>
+
+					<dt>SSO (Single Sign-On)</dt>
+					<dd>
+						A user authentication process that permits a user to use one set of
+						login credentials to access multiple applications.
+					</dd>
+
+					<dt>SSD (Solid State Drive)</dt>
+					<dd>
+						A type of mass storage device similar to a hard disk drive (HDD) but
+						with no moving parts.
+					</dd>
+
+					<dt>Supermicro</dt>
+					<dd>
+						A company that manufactures servers, motherboards, and other computing
+						hardware.
+					</dd>
+
+					<dt>Terraform</dt>
+					<dd>
+						An open-source infrastructure as code software tool created by
+						HashiCorp.
+					</dd>
+
+					<dt>VM (Virtual Machine)</dt>
+					<dd>A software-based simulation of a physical computer.</dd>
+
+					<dt>WireGuard</dt>
+					<dd>
+						A modern VPN that is simpler, faster, and more secure than traditional
+						VPN protocols.
+					</dd>
+
+					<dt>Zabbix</dt>
+					<dd>
+						An open-source monitoring software tool for various IT components,
+						including networks, servers, virtual machines, and cloud services.
+					</dd>
+				</dl>
+			</article>
+				<footer>
+					<p class="footer-info">Built with HTML & CSS</p>
+				</footer>
+			</div>
+		</div>
+	</body>
+</html>
